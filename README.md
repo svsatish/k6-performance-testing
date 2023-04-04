@@ -53,7 +53,7 @@ brew install k6
 
 K6 supports 3 different execution modes - local, cloud, distributed.
 
-Local:
+#### 1. Local:
 ```
 k6 run script.js
 k6 run --vus 10 --duration 30s script.js
@@ -62,7 +62,7 @@ k6 run script --out script.js
 
 ![](/images/k6_local.png)
 
-Cloud:
+#### 2. Cloud:
 ```
 k6 cloud script.js
 ```
@@ -74,7 +74,7 @@ k6 cloud script.js
   
 ![](/images/k6_cloud_results.png)
 
-Distributed:
+#### 3. Distributed:
 ```
 kubectl apply -f /path/k6-resource.yaml
 ```
@@ -85,12 +85,12 @@ kubectl apply -f /path/k6-resource.yaml
 
 ### Onboarding:
 
-#### From converters:
+#### 1. From converters
 
-If you already have some API tests developed previously and like to onboard quickly to use K6, K6 provides many extensions for such situations. Some extensions are Jmeter, Postman, Swagger etc.
+If you already have some API tests developed previously and like to onboard quickly to use K6, K6 provides many extensions for such situations. Some extensions are HAR, Jmeter, Postman, Swagger etc.
 
 #### Example Postman:
-- Export & have your working Postman collection ready. Something like 
+- Export & have your working [Postman collection](/K6.postman_collection.json) ready. 
 - Install Node.js
 - Install postman-to-k6 extension
 ```
@@ -101,3 +101,11 @@ npm install -g @apideck/postman-to-k6
 postman-to-k6 postman-collection.json -o postman-to-k6-script.js
 ```
 - run the script in any of your preferred execution mode
+
+#### 2. Recorder
+
+K6 provides `k6 Browser Recorder` for chrome and firefox browser. So, we can get the extension and record browser actions and when saved, it generates a script in our cloud account. See [recorded-test.js](/recorded-test.js)
+
+#### 3. Write tests from scratch
+
+You may write tests from scratch in Javascript. Please see the [docs](https://k6.io/docs/using-k6/). We may also write in other languages like Typescript and Go. 
