@@ -51,10 +51,17 @@ In Local:
 - k6 run --vus 10 --duration 30s script.js
 - k6 run script --out script.js
 
+![](/images/k6_local.png)
+
 In cloud:
 - k6 cloud script.js
+![](/images/k6_cloud_tests.png)
   - For a free-tier subscription cloud account, we have only limited access as
+
+  ![](/images/k6_cloud_subscription.png)
   - Also, please note that k6 cloud increments the count in your subscribed account for just streaming the results to cloud
+  
+![](/images/k6_cloud_results.png)
 
 Distributed:
 - kubectl apply -f /path/k6-resource.yaml
