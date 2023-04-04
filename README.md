@@ -23,8 +23,8 @@ With k6, you can automate and schedule to trigger tests very frequently with a s
 - Natively supports HTTP 1 & 2, WebSockets, and gRPC.
 - Increases support through org/community-built extensions (browser automations, results outputs, queue protocols, Kubernetes, tracing, chaos, etc.)
 - Easy to integrate into CI/CD platforms through powerful command line options.
-------------------------------------------------------------------------------------
-### It integrates with various other tools/features:
+
+#### It integrates with various other tools/features:
 
 - K6 using AWS CodeBuild Platform - https://k6.io/blog/integrating-k6-with-aws-codebuild/
 - Chaos testing with xk6-disruptor - https://k6.io/blog/chaos-testing-microservices-with-xk6-disruptor/
@@ -33,8 +33,8 @@ With k6, you can automate and schedule to trigger tests very frequently with a s
 - Deployment-time testing with Grafana k6 and Flagger - https://k6.io/blog/deployment-time-testing-with-grafana-k6-and-flagger/
 - Debugging Using a Web Proxy - https://k6.io/blog/k6-load-testing-debugging-using-a-web-proxy/
 - Rendezvous with k6 - https://k6.io/blog/rendezvous-with-k6/
-------------------------------------------------------------------------------------
-### Onboarding is easy if there are already existing performance tests as we have converters which will convert code to K6 ( not 100% and need script refactoring)
+
+#### Onboarding is easy if there are already existing performance tests as we have converters which will convert code to K6 ( not 100% and need script refactoring)
 
 - Load Testing Your API with Postman - https://k6.io/blog/load-testing-with-postman-collections/
 - Jmeter to K6 converter - https://k6.io/blog/ref-announcing-jmeter-to-k6-js-converter-tool/
