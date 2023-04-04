@@ -48,7 +48,9 @@ brew install k6
 
 ### Run tests:
 
-In Local:
+K6 supports 3 different execution modes - local, cloud, distributed.
+
+Local:
 ```
 k6 run script.js
 k6 run --vus 10 --duration 30s script.js
@@ -57,7 +59,7 @@ k6 run script --out script.js
 
 ![](/images/k6_local.png)
 
-In cloud:
+Cloud:
 ```
 k6 cloud script.js
 ```
@@ -73,6 +75,10 @@ Distributed:
 ```
 kubectl apply -f /path/k6-resource.yaml
 ```
+
+### Results ouput:
+- K6 geneerates metrics that measure the performance of the system. These metrics can be customized as required. 
+- For local execution, results are printed in console after test run. Also, they can be streamed to different outputs - K6 cloud, elasticsearch, New relic, Grafana, to different services, etc.. 
 
 ### Onboarding:
 
@@ -91,4 +97,4 @@ npm install -g @apideck/postman-to-k6
 ```
 postman-to-k6 postman-collection.json -o postman-to-k6-script.js
 ```
-- run the script in any of your preferred execution modes
+- run the script in any of your preferred execution mode
