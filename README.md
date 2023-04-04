@@ -42,19 +42,25 @@ With k6, you can automate and schedule to trigger tests very frequently with a s
 
 ## How to use K6?
 ### Install K6 in mac:
-- brew install k6
+```
+brew install k6
+```
 
 ### Run tests:
 
 In Local:
-- k6 run script.js
-- k6 run --vus 10 --duration 30s script.js
-- k6 run script --out script.js
+```
+k6 run script.js
+k6 run --vus 10 --duration 30s script.js
+k6 run script --out script.js
+```
 
 ![](/images/k6_local.png)
 
 In cloud:
-- k6 cloud script.js
+```
+k6 cloud script.js
+```
 ![](/images/k6_cloud_tests.png)
   - For a free-tier subscription cloud account, we have only limited access as
 
@@ -64,4 +70,25 @@ In cloud:
 ![](/images/k6_cloud_results.png)
 
 Distributed:
-- kubectl apply -f /path/k6-resource.yaml
+```
+kubectl apply -f /path/k6-resource.yaml
+```
+
+### Onboarding:
+
+#### From converters:
+
+If you already have some API tests developed previously and like to onboard quickly to use K6, K6 provides many extensions for such situations. Some extensions are Jmeter, Postman, Swagger etc.
+
+#### Example Postman:
+- Export & have your working Postman collection ready. Something like 
+- Install Node.js
+- Install postman-to-k6 extension
+```
+npm install -g @apideck/postman-to-k6
+```
+- Convert postman collection to scripts
+```
+postman-to-k6 postman-collection.json -o postman-to-k6-script.js
+```
+- run the script in any of your preferred execution modes
