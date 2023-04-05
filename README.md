@@ -58,6 +58,7 @@ K6 supports 3 different execution modes - local, cloud, distributed.
 k6 run script.js
 k6 run --vus 10 --duration 30s script.js
 k6 run script --out script.js
+K6_BROWSER_ENABLED=true k6 run script.js
 ```
 
 ![](/images/k6_local.png)
@@ -79,11 +80,11 @@ k6 cloud script.js
 kubectl apply -f /path/k6-resource.yaml
 ```
 
-### Results ouput:
+## Results ouput:
 - K6 geneerates metrics that measure the performance of the system. These metrics can be customized as required. 
 - For local execution, results are printed in console after test run. Also, they can be streamed to different outputs - K6 cloud, elasticsearch, New relic, Grafana, to different services, etc.. 
 
-### Onboarding:
+## Onboarding:
 
 #### 1. From converters
 
@@ -109,3 +110,107 @@ K6 provides `k6 Browser Recorder` for chrome and firefox browser. So, we can get
 #### 3. Write tests from scratch
 
 You may write tests from scratch in Javascript. Please see the [docs](https://k6.io/docs/using-k6/). We may also write in other languages like Typescript and Go. 
+
+## Jmeter Vs K6:
+
+There is no best tool that fits everyone. It all depends on situation in your team is in..
+
+#### JMeter is best for:
+- traditional testing teams
+- those looking for a GUI-driven testing tool with tons of third-party tutorials and extensive protocol support
+- previous users of commercial tools like LoadRunner and NeoLoad
+
+#### k6 is best for:
+- collaborative, cross-functional engineering teams where testing spans acrosss multiple roles
+- those looking for a simple and lightweight, yet fully-featured load testing tool
+- teams looking to integrate testing into existing development workflows and CI/CD pipelines
+
+[Detailed table comparison - Jmeter Vs K6](https://k6.io/blog/k6-vs-jmeter/#comparison-table-jmeter-vs-k6-1)
+
+## Browser testing:
+
+Browser testing will be helpful to uncover some issues missed by the default K6 engine as it uses protocol level. K6 installation has built-in `K6 browser module` which is built on top of Playwright API. Using this module, we can interact with real browser and test application under test. 
+
+- Example [ui-test.js](/ui-test.js)
+- Example [hybrid-test.js](/hybrid-test.js)
+
+Detailed [doc](https://k6.io/docs/javascript-api/k6-browser/get-started/)
+
+## Using K6 to generate traffic on Canary wwhile deployments
+
+Jmeter can be used along with K8's but there is not much info if it can be integrated with Flagger but on the otherside, we have a blog covering the integration of K6 with K8's and Flagger.
+
+Kubernetes - main benefit of deploying apps using K8's is its ability to scale & manage containerized apps at scale
+
+Flagger - Flagger can interact & analyze Kubernetes deployments. It enables canary or blue/green releases, A/B testing, and traffic mirroring (shadowing). It supports querying a variety of metrics sources to determine the canary’s health before, during, and after traffic is moved from the previous version.
+
+https://github.concur.com/foundation/devfabric/blob/main/core/helm/devfabric/templates/canary.yaml
+
+``` yaml
+kind: Canary
+metadata:
+name: my-app
+namespace: my-app
+spec:
+analysis:
+   interval: 1m # How long between iterations
+   iterations: 1 # How many iterations (increase traffic + analysis)
+   threshold: 2 # How many failed analyses before canary fails
+   metrics: ... # list of metrics to check at each iteration (not covered in this article)
+service: # description of the service to be created by Flagger
+   name: my-app
+   port: 80
+   targetPort: 80
+targetRef: # reference to the workload managed by Flagger
+   apiVersion: apps/v1
+   kind: Deployment
+   name: my-app
+```
+
+Problem: Flagger does not provide a testing solution that is suitable for all HTTP services. Its own load tester cannot reject a canary based on responses — it’s a fire-and-forget client. This means that all services that are tested must be suitably instrumented with metrics, and complex test cases cannot be implemented.
+
+Combining Flagger & K6 solves this issue
+
+``` yaml
+apiVersion: flagger.app/v1beta1
+kind: Canary
+metadata:
+name: my-app
+namespace: my-app
+spec:
+analysis:
+   interval: 1m
+   iterations: 1
+   threshold: 2 
+   metrics: ...
+   webhooks:
+     - name: k6-load-test
+       timeout: 5m
+       type: pre-rollout
+       url: http://k6-loadtester.flagger/launch-test
+       metadata:
+         slack_channels: flagger-test
+         script: |
+           import http from 'k6/http';
+           import { sleep } from 'k6';
+ 
+           export const options = {
+               duration: '1m',
+               vus: 1,
+               thresholds: {
+                   http_req_duration: ['p(95)<500'],
+               },
+           };
+ 
+           export default function () {
+               const res = http.get('https://test.k6.io');
+               sleep(1);
+           }
+service: ...
+targetRef: ...
+```
+
+Detailed blog [here](https://k6.io/blog/deployment-time-testing-with-grafana-k6-and-flagger/)
+
+
+
