@@ -82,7 +82,15 @@ kubectl apply -f /path/k6-resource.yaml
 
 ## Results ouput:
 - K6 geneerates metrics that measure the performance of the system. These metrics can be customized as required. 
-- For local execution, results are printed in console after test run. Also, they can be streamed to different outputs - K6 cloud, elasticsearch, New relic, Grafana, to different services, etc.. 
+- For local execution, results are printed in console after test run. Also, they can be streamed to different outputs  K6 cloud, elasticsearch, New relic, Grafana, to different services, etc.. 
+
+#### k6-reporter: Using this extension, it will generate a html report with all metrics data
+
+- [reporter.js](/reporter.js)
+- [report](/summary.html)
+![](/images/k6-reporter.png)
+
+- Also [k6-dashboard](https://github.com/szkiba/xk6-dashboard#xk6-dashboard-) is very interesting. Using this, we can build custom dashboard with various metrics.
 
 ## Onboarding:
 
