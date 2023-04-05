@@ -170,6 +170,8 @@ Problem: Flagger does not provide a testing solution that is suitable for all HT
 
 Combining Flagger & K6 solves this issue
 
+To complete the integration between Flagger and k6 is a simple Flagger webhook handler that calls k6 on behalf of Flagger. When deployed alongside Flagger, the [“flagger-k6-webhook”](https://github.com/grafana/flagger-k6-webhook) provides a pre-rollout check (before traffic is sent to the canary) that can run any k6 script, notify users via Slack, and either fail or succeed the check based on thresholds defined in the k6 script.
+
 ``` yaml
 apiVersion: flagger.app/v1beta1
 kind: Canary
@@ -209,6 +211,7 @@ service: ...
 targetRef: ...
 ```
 
+Example [code](https://github.com/grafana/flagger-k6-webhook/tree/main/example)
 Detailed blog [here](https://k6.io/blog/deployment-time-testing-with-grafana-k6-and-flagger/)
 
 
