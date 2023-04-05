@@ -57,7 +57,7 @@ K6 supports 3 different execution modes - local, cloud, distributed.
 ```
 k6 run script.js
 k6 run --vus 10 --duration 30s script.js
-k6 run script --out script.js
+k6 run script.js --out cloud
 K6_BROWSER_ENABLED=true k6 run script.js
 ```
 
@@ -144,7 +144,6 @@ Kubernetes - main benefit of deploying apps using K8's is its ability to scale &
 
 Flagger - Flagger can interact & analyze Kubernetes deployments. It enables canary or blue/green releases, A/B testing, and traffic mirroring (shadowing). It supports querying a variety of metrics sources to determine the canary’s health before, during, and after traffic is moved from the previous version.
 
-https://github.concur.com/foundation/devfabric/blob/main/core/helm/devfabric/templates/canary.yaml
 
 ``` yaml
 kind: Canary
